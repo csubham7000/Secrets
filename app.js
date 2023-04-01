@@ -9,6 +9,7 @@ const passportLocalMongoose = require("passport-local-mongoose");
 var GoogleStrategy = require('passport-google-oauth20').Strategy;
 var FacebookStrategy = require('passport-facebook');
 const findOrCreate = require("mongoose-findorcreate");
+mongoose.set('strictQuery', true);
 
 const app = express();
 
