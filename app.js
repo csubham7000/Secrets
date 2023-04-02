@@ -28,9 +28,9 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb://127.0.0.1:27017/userDB");
+mongoose.connect("mongodb+srv://csubham700:" + process.env.MONGODB_ATLAS_PASSWORD + "@cluster0.5enkkcy.mongodb.net/secrets");
 const userSchema = new mongoose.Schema({
-  email: String,
+  username: String,
   password: String,
   googleId: String,
   facebookId:String,
