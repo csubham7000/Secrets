@@ -47,7 +47,7 @@ passport.use(User.createStrategy());
 
 passport.serializeUser(function(user, cb) {
   process.nextTick(function() {
-    cb(null, { id: user.id, username: user.username, name: user.name });
+    cb(null, { id: user._id, username: user.username, name: user.name });
   });
 });
 
@@ -162,7 +162,7 @@ passport.authenticate("local")(req, res, function(){
 
 app.post("/submit", function(req, res){
   const submittedSecret = req.body.secret;
-  User.findById(req.user.id).then((foundUser)=>{
+  User.findById(req.user._id).then((foundUser)=>{
     foundUser.secret = submittedSecret;
     foundUser.save().then(res.redirect("/secrets"));
   })
