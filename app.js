@@ -136,8 +136,8 @@ User.register({username: req.body.username}, req.body.password, function(err, us
     console.log(err);
     res.redirect("/register");
   }else{
-passport.authenticate("local")(req, res, function(){
-  res.redirect("/secrets");
+passport.authenticate("local")(request, response, function(){
+  response.redirect("/secrets");
 })
   }
 })
@@ -153,8 +153,8 @@ app.post("/login", function(req, res){
   if(err){
     console.log(err);
   }else{
-passport.authenticate("local")(req, res, function(){
-  res.redirect("/secrets");
+passport.authenticate("local")(request, response, function(){
+  response.redirect("/secrets");
 })
   }
  })
