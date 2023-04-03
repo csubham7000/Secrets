@@ -28,7 +28,7 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb+srv://csubham700:" + process.env.MONGODB_ATLAS_PASSWORD + "@cluster0.5enkkcy.mongodb.net/secrets");
+mongoose.connect("mongodb+srv://csubham700:" + process.env.MONGODB_ATLAS_PASSWORD + "@cluster0.5enkkcy.mongodb.net/?retryWrites=true&w=majority");
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
@@ -60,7 +60,7 @@ passport.deserializeUser(function(user, cb) {
 passport.use(new GoogleStrategy({
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-  callbackURL: "http://localhost:3000/auth/google/secrets",
+  callbackURL: "https://cautious-scarf-slug.cyclic.app/auth/google/secrets",
   userProfileURL: "https://www.googleapis.com/oauth2/v3/userinfo"
 },
 function(accessToken, refreshToken, profile, cb) {
@@ -73,7 +73,7 @@ function(accessToken, refreshToken, profile, cb) {
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_APP_ID,
   clientSecret: process.env.FACEBOOK_APP_SECRET,
-  callbackURL: "http://localhost:3000/auth/facebook/secrets"
+  callbackURL: "https://cautious-scarf-slug.cyclic.app/auth/facebook/secrets"
 },
 function(accessToken, refreshToken, profile, cb) {
   User.findOrCreate({ facebookId: profile.id }, function (err, user) {
