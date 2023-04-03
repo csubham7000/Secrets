@@ -29,6 +29,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 mongoose.connect("mongodb+srv://csubham700:" + process.env.MONGODB_ATLAS_PASSWORD + "@cluster0.5enkkcy.mongodb.net/?retryWrites=true&w=majority");
+mongoose.set("useCreateIndex", true);
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
