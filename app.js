@@ -160,11 +160,10 @@ passport.authenticate("local")(req, res, function(){
 
 app.post("/submit", function(req, res){
   const submittedSecret = req.body.secret;
-  User.findById(req.user.id).then((foundUser)=>{
+  User.findById(req.user."_id").then((foundUser)=>{
     foundUser.secret = submittedSecret;
     foundUser.save().then(res.redirect("/secrets"));
   })
-console.log(req.user.id);
 });
 
 app.listen(process.env.PORT || 3000, function() {
