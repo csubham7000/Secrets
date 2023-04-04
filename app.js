@@ -22,13 +22,13 @@ app.use(express.static("public"));
 app.use(session({
   secret: 'Our little secret.',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb+srv://csubham700:" + process.env.MONGODB_ATLAS_PASSWORD + "@cluster0.5enkkcy.mongodb.net/?retryWrites=true&w=majority");
+mongoose.connect("mongodb+srv://csubham700:" + process.env.MONGODB_ATLAS_PASSWORD + "@cluster0.5enkkcy.mongodb.net/Secrets");
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
@@ -41,7 +41,7 @@ userSchema.plugin(passportLocalMongoose);
 userSchema.plugin(findOrCreate);
 
 
-const User = new mongoose.model("User", userSchema);
+const User = mongoose.model("User", userSchema);
 
 passport.use(User.createStrategy());
 
@@ -130,16 +130,21 @@ app.get("/submit", function(req, res){
   }
 })
 
-app.post("/register",  passport.authenticate('local', { failureRedirect: '/register' }), function(req, res){
+app.post("/register", function(req, res){
 User.register({username: req.body.username}, req.body.password, function(err, user){
   if(err){
     console.log(err);
+    res.redirect("/register");
   }else{
+passport.authenticate("local")(req, res, function(){
   res.redirect("/secrets");
-}}
-)});
+})
+  }
+})
   
-app.post("/login",  passport.authenticate('local', { failureRedirect: '/login' }), function(req, res){
+
+});
+app.post("/login", function(req, res){
  const user = new User({
   username: req.body.username,
   password: req.body.password
@@ -148,10 +153,12 @@ app.post("/login",  passport.authenticate('local', { failureRedirect: '/login' }
   if(err){
     console.log(err);
   }else{
-res.redirect("/secrets");
-}}
-)});
- 
+passport.authenticate("local")(req, res, function(){
+  res.redirect("/secrets");
+})
+  }
+ })
+});
 
 app.post("/submit", function(req, res){
   const submittedSecret = req.body.secret;
