@@ -130,21 +130,16 @@ app.get("/submit", function(req, res){
   }
 })
 
-app.post("/register", function(req, res){
+app.post("/register",  passport.authenticate('local', { failureRedirect: '/login' }), function(req, res){
 User.register({username: req.body.username}, req.body.password, function(err, user){
   if(err){
     console.log(err);
-    res.redirect("/register");
   }else{
-passport.authenticate("local")(request, response, function(){
-  response.redirect("/secrets");
-})
-  }
-})
+  res.redirect("/secrets");
+}}
+)});
   
-
-});
-app.post("/login", function(req, res){
+app.post("/login",  passport.authenticate('local', { failureRedirect: '/login' }), function(req, res){
  const user = new User({
   username: req.body.username,
   password: req.body.password
@@ -153,12 +148,10 @@ app.post("/login", function(req, res){
   if(err){
     console.log(err);
   }else{
-passport.authenticate("local")(request, response, function(){
-  response.redirect("/secrets");
-})
-  }
- })
-});
+res.redirect("/secrets");
+}}
+)});
+ 
 
 app.post("/submit", function(req, res){
   const submittedSecret = req.body.secret;
