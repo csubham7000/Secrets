@@ -130,7 +130,7 @@ app.get("/submit", function(req, res){
   }
 })
 
-app.post("/register",  passport.authenticate('local', { failureRedirect: '/login' }), function(req, res){
+app.post("/register",  passport.authenticate('local', { failureRedirect: '/register' }), function(req, res){
 User.register({username: req.body.username}, req.body.password, function(err, user){
   if(err){
     console.log(err);
