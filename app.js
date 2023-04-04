@@ -127,7 +127,6 @@ app.get("/submit", function(req, res){
     res.render("submit");
   }else{
     res.redirect("/login");
-    console.log(err);
   }
 })
 
