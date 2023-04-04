@@ -164,7 +164,7 @@ app.post("/submit", function(req, res){
     foundUser.secret = submittedSecret;
     foundUser.save().then(res.redirect("/secrets"));
   })
-
+console.log(req.user.id);
 });
 
 app.listen(process.env.PORT || 3000, function() {
