@@ -28,7 +28,6 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-mongoose.connect("mongodb+srv://csubham700:" + process.env.MONGODB_ATLAS_PASSWORD + "@cluster0.5enkkcy.mongodb.net/Secrets");
 const userSchema = new mongoose.Schema({
   username: String,
   password: String,
@@ -166,6 +165,26 @@ app.post("/submit", function(req, res){
   })
 });
 
-app.listen(process.env.PORT || 3000, function() {
-  console.log("Server started on port 3000");
-});
+const PORT = process.env.PORT || 3000
+
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect("process.env.mongodb+srv://csubham700:" + process.env.MONGODB_ATLAS_PASSWORD + "@cluster0.5enkkcy.mongodb.net/Secrets");
+    console.log(`MongoDB Connected: ${conn.connection.host}`);
+  } catch (error) {
+    console.log(error);
+    process.exit(1);
+  }
+}
+
+//Routes go here
+app.all('*', (req,res) => {
+    res.json({"every thing":"is awesome"})
+})
+
+//Connect to the database before listening
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
+})
