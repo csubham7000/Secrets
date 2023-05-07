@@ -169,7 +169,7 @@ const PORT = process.env.PORT || 3000
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect("process.env.mongodb+srv://csubham700:" + process.env.MONGODB_ATLAS_PASSWORD + "@cluster0.5enkkcy.mongodb.net/Secrets");
+    const conn = await mongoose.connect("mongodb+srv://csubham700:" + process.env.MONGODB_ATLAS_PASSWORD + "@cluster0.5enkkcy.mongodb.net/Secrets");
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.log(error);
